@@ -9,20 +9,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LeadSchema = exports.Lead = void 0;
+exports.LeadSchema = exports.Lead = exports.LeadStatus = exports.LeadSource = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+var LeadSource;
+(function (LeadSource) {
+    LeadSource["WEBSITE"] = "website";
+    LeadSource["REFERRAL"] = "referral";
+    LeadSource["LINKEDIN"] = "linkedin";
+    LeadSource["COLD_OUTREACH"] = "cold_outreach";
+    LeadSource["EVENT"] = "event";
+})(LeadSource || (exports.LeadSource = LeadSource = {}));
+var LeadStatus;
+(function (LeadStatus) {
+    LeadStatus["NEW"] = "new";
+    LeadStatus["CONTACTED"] = "contacted";
+    LeadStatus["QUALIFIED"] = "qualified";
+    LeadStatus["UNQUALIFIED"] = "unqualified";
+})(LeadStatus || (exports.LeadStatus = LeadStatus = {}));
 let Lead = class Lead {
     name;
     company;
     email;
     phone;
-    score;
-    status;
-    source;
     value;
-    lastContact;
+    source;
+    status;
     territory;
     notes;
+    score;
+    lastContact;
+    organizationId;
+    contactId;
+    convertedAt;
 };
 exports.Lead = Lead;
 __decorate([
@@ -42,25 +60,17 @@ __decorate([
     __metadata("design:type", String)
 ], Lead.prototype, "phone", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 0 }),
-    __metadata("design:type", Number)
-], Lead.prototype, "score", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ default: 'new' }),
-    __metadata("design:type", String)
-], Lead.prototype, "status", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Lead.prototype, "source", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: Number }),
+    (0, mongoose_1.Prop)({ type: Number, default: 0 }),
     __metadata("design:type", Number)
 ], Lead.prototype, "value", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: Date, default: Date.now }),
-    __metadata("design:type", Date)
-], Lead.prototype, "lastContact", void 0);
+    (0, mongoose_1.Prop)({ type: String, enum: LeadSource, default: LeadSource.WEBSITE }),
+    __metadata("design:type", String)
+], Lead.prototype, "source", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: String, enum: LeadStatus, default: LeadStatus.NEW }),
+    __metadata("design:type", String)
+], Lead.prototype, "status", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
@@ -69,6 +79,26 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Lead.prototype, "notes", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Number, default: 0, min: 0, max: 100 }),
+    __metadata("design:type", Number)
+], Lead.prototype, "score", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Date, default: Date.now }),
+    __metadata("design:type", Date)
+], Lead.prototype, "lastContact", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Lead.prototype, "organizationId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Lead.prototype, "contactId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Date }),
+    __metadata("design:type", Date)
+], Lead.prototype, "convertedAt", void 0);
 exports.Lead = Lead = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Lead);

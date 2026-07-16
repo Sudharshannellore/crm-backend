@@ -17,14 +17,22 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const lead_schema_1 = require("./schemas/lead.schema");
 const common_1 = require("@nestjs/common");
+const organizations_service_1 = require("../organizations/organizations.service");
+const contacts_service_1 = require("../contacts/contacts.service");
+const contact_schema_1 = require("../contacts/schemas/contact.schema");
+const FINAL_STAGE = lead_schema_1.LeadStatus.QUALIFIED;
 let LeadsService = class LeadsService {
     leadModel;
-    constructor(leadModel) {
+    organizationsService;
+    contactsService;
+    constructor(leadModel, organizationsService, contactsService) {
         this.leadModel = leadModel;
+        this.organizationsService = organizationsService;
+        this.contactsService = contactsService;
     }
-    create(createLeadDto) {
-        const created = new this.leadModel(createLeadDto);
-        return created.save();
+    async create(createLeadDto) {
+        const created = await new this.leadModel(createLeadDto).save();
+        return this.convertIfFinalStage(created);
     }
     findAll() {
         return this.leadModel.find().exec();
@@ -32,17 +40,50 @@ let LeadsService = class LeadsService {
     findOne(id) {
         return this.leadModel.findById(id).exec();
     }
-    update(id, updateLeadDto) {
-        return this.leadModel.findByIdAndUpdate(id, updateLeadDto, { new: true }).exec();
+    async update(id, updateLeadDto) {
+        const updated = await this.leadModel
+            .findByIdAndUpdate(id, updateLeadDto, { new: true })
+            .exec();
+        if (!updated) {
+            return updated;
+        }
+        return this.convertIfFinalStage(updated);
     }
     remove(id) {
         return this.leadModel.findByIdAndDelete(id).exec();
+    }
+    async convertIfFinalStage(lead) {
+        if (lead.status !== FINAL_STAGE || lead.organizationId) {
+            return lead;
+        }
+        const organization = await this.organizationsService.create({
+            name: lead.company,
+            phone: lead.phone,
+            description: lead.notes || `Auto-created from qualified lead "${lead.name}".`,
+        });
+        const organizationId = String(organization._id);
+        const contact = await this.contactsService.create({
+            name: lead.name,
+            company: lead.company,
+            email: lead.email,
+            phone: lead.phone,
+            type: contact_schema_1.ContactType.CUSTOMER,
+            location: lead.territory,
+            bio: lead.notes,
+            organizationId,
+        });
+        lead.organizationId = organizationId;
+        lead.contactId = String(contact._id);
+        lead.convertedAt = new Date();
+        return lead.save();
     }
 };
 exports.LeadsService = LeadsService;
 exports.LeadsService = LeadsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(lead_schema_1.Lead.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        organizations_service_1.OrganizationsService,
+        contacts_service_1.ContactsService])
 ], LeadsService);
 //# sourceMappingURL=leads.service.js.map

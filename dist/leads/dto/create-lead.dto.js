@@ -11,17 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateLeadDto = void 0;
 const class_validator_1 = require("class-validator");
+const lead_schema_1 = require("../schemas/lead.schema");
 class CreateLeadDto {
     name;
     company;
     email;
     phone;
-    score;
-    status;
-    source;
     value;
+    source;
+    status;
     territory;
     notes;
+    score;
 }
 exports.CreateLeadDto = CreateLeadDto;
 __decorate([
@@ -45,22 +46,17 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
-], CreateLeadDto.prototype, "score", void 0);
+], CreateLeadDto.prototype, "value", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateLeadDto.prototype, "status", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsEnum)(lead_schema_1.LeadSource),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateLeadDto.prototype, "source", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsEnum)(lead_schema_1.LeadStatus),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Number)
-], CreateLeadDto.prototype, "value", void 0);
+    __metadata("design:type", String)
+], CreateLeadDto.prototype, "status", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
@@ -71,4 +67,11 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateLeadDto.prototype, "notes", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    (0, class_validator_1.Max)(100),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateLeadDto.prototype, "score", void 0);
 //# sourceMappingURL=create-lead.dto.js.map

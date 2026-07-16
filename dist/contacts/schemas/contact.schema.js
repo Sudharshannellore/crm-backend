@@ -9,25 +9,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContactSchema = exports.Contact = void 0;
+exports.ContactSchema = exports.Contact = exports.ContactType = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let Contact = class Contact extends mongoose_2.Document {
-    firstName;
-    lastName;
+var ContactType;
+(function (ContactType) {
+    ContactType["CUSTOMER"] = "customer";
+    ContactType["PARTNER"] = "partner";
+    ContactType["VENDOR"] = "vendor";
+    ContactType["INFLUENCER"] = "influencer";
+})(ContactType || (exports.ContactType = ContactType = {}));
+let Contact = class Contact {
+    name;
+    title;
+    company;
     email;
     phone;
-    accountId;
+    type;
+    linkedin;
+    location;
+    bio;
+    organizationId;
 };
 exports.Contact = Contact;
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], Contact.prototype, "firstName", void 0);
+], Contact.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Contact.prototype, "lastName", void 0);
+], Contact.prototype, "title", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Contact.prototype, "company", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
@@ -37,9 +52,25 @@ __decorate([
     __metadata("design:type", String)
 ], Contact.prototype, "phone", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ type: String, enum: ContactType, default: ContactType.CUSTOMER }),
+    __metadata("design:type", String)
+], Contact.prototype, "type", void 0);
+__decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Contact.prototype, "accountId", void 0);
+], Contact.prototype, "linkedin", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Contact.prototype, "location", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Contact.prototype, "bio", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Contact.prototype, "organizationId", void 0);
 exports.Contact = Contact = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Contact);

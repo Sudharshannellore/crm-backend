@@ -9,14 +9,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DealSchema = exports.Deal = void 0;
+exports.DealSchema = exports.Deal = exports.DealPriority = exports.DealStage = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let Deal = class Deal extends mongoose_2.Document {
+var DealStage;
+(function (DealStage) {
+    DealStage["DISCOVERY"] = "discovery";
+    DealStage["QUALIFICATION"] = "qualification";
+    DealStage["PROPOSAL"] = "proposal";
+    DealStage["NEGOTIATION"] = "negotiation";
+    DealStage["CLOSED_WON"] = "closed_won";
+    DealStage["CLOSED_LOST"] = "closed_lost";
+})(DealStage || (exports.DealStage = DealStage = {}));
+var DealPriority;
+(function (DealPriority) {
+    DealPriority["LOW"] = "low";
+    DealPriority["MEDIUM"] = "medium";
+    DealPriority["HIGH"] = "high";
+})(DealPriority || (exports.DealPriority = DealPriority = {}));
+let Deal = class Deal {
     title;
+    company;
     value;
+    closeDate;
+    owner;
     stage;
-    accountId;
+    priority;
+    probability;
+    description;
 };
 exports.Deal = Deal;
 __decorate([
@@ -24,17 +43,37 @@ __decorate([
     __metadata("design:type", String)
 ], Deal.prototype, "title", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Deal.prototype, "company", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Number, required: true, default: 0 }),
     __metadata("design:type", Number)
 ], Deal.prototype, "value", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 'Lead' }),
-    __metadata("design:type", String)
-], Deal.prototype, "stage", void 0);
+    (0, mongoose_1.Prop)({ type: Date }),
+    __metadata("design:type", Date)
+], Deal.prototype, "closeDate", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Deal.prototype, "accountId", void 0);
+], Deal.prototype, "owner", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: String, enum: DealStage, default: DealStage.DISCOVERY }),
+    __metadata("design:type", String)
+], Deal.prototype, "stage", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: String, enum: DealPriority, default: DealPriority.MEDIUM }),
+    __metadata("design:type", String)
+], Deal.prototype, "priority", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Number, default: 20, min: 0, max: 100 }),
+    __metadata("design:type", Number)
+], Deal.prototype, "probability", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Deal.prototype, "description", void 0);
 exports.Deal = Deal = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Deal);

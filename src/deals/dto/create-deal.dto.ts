@@ -1,24 +1,47 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
+import { DealPriority, DealStage } from '../schemas/deal.schema';
 
 export class CreateDealDto {
   @IsString()
-  name: string;
+  title: string;
+
+  @IsString()
+  @IsOptional()
+  company?: string;
 
   @IsNumber()
+  @Min(0)
   value: number;
 
-  @IsString()
-  stage: string;
+  @IsOptional()
+  closeDate?: Date;
 
   @IsString()
   @IsOptional()
-  accountId?: string;
+  owner?: string;
+
+  @IsEnum(DealStage)
+  @IsOptional()
+  stage?: DealStage;
+
+  @IsEnum(DealPriority)
+  @IsOptional()
+  priority?: DealPriority;
+
+  @IsNumber()
+  @Min(0)
+  @Max(100)
+  @IsOptional()
+  probability?: number;
 
   @IsString()
   @IsOptional()
-  contactId?: string;
-
-  @IsString()
-  @IsOptional()
-  expectedCloseDate?: string;
+  description?: string;
 }

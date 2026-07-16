@@ -1,4 +1,13 @@
-import { IsString, IsEmail, IsOptional, IsNumber, IsEnum } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
+import { LeadSource, LeadStatus } from '../schemas/lead.schema';
 
 export class CreateLeadDto {
   @IsString()
@@ -16,19 +25,15 @@ export class CreateLeadDto {
 
   @IsNumber()
   @IsOptional()
-  score?: number;
-
-  @IsString()
-  @IsOptional()
-  status?: string;
-
-  @IsString()
-  @IsOptional()
-  source?: string;
-
-  @IsNumber()
-  @IsOptional()
   value?: number;
+
+  @IsEnum(LeadSource)
+  @IsOptional()
+  source?: LeadSource;
+
+  @IsEnum(LeadStatus)
+  @IsOptional()
+  status?: LeadStatus;
 
   @IsString()
   @IsOptional()
@@ -37,4 +42,10 @@ export class CreateLeadDto {
   @IsString()
   @IsOptional()
   notes?: string;
+
+  @IsNumber()
+  @Min(0)
+  @Max(100)
+  @IsOptional()
+  score?: number;
 }

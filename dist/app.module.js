@@ -12,6 +12,13 @@ const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const leads_module_1 = require("./leads/leads.module");
+const organizations_module_1 = require("./organizations/organizations.module");
+const contacts_module_1 = require("./contacts/contacts.module");
+const deals_module_1 = require("./deals/deals.module");
+const tasks_module_1 = require("./tasks/tasks.module");
+const meetings_module_1 = require("./meetings/meetings.module");
+const campaigns_module_1 = require("./campaigns/campaigns.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -28,6 +35,13 @@ exports.AppModule = AppModule = __decorate([
                 }),
                 inject: [config_1.ConfigService],
             }),
+            leads_module_1.LeadsModule,
+            organizations_module_1.OrganizationsModule,
+            contacts_module_1.ContactsModule,
+            deals_module_1.DealsModule,
+            tasks_module_1.TasksModule,
+            meetings_module_1.MeetingsModule,
+            campaigns_module_1.CampaignsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

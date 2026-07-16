@@ -16,7 +16,6 @@ exports.DealsController = void 0;
 const common_1 = require("@nestjs/common");
 const deals_service_1 = require("./deals.service");
 const create_deal_dto_1 = require("./dto/create-deal.dto");
-const update_deal_dto_1 = require("./dto/update-deal.dto");
 let DealsController = class DealsController {
     dealsService;
     constructor(dealsService) {
@@ -29,13 +28,7 @@ let DealsController = class DealsController {
         return this.dealsService.findAll();
     }
     findOne(id) {
-        return this.dealsService.findOne(+id);
-    }
-    update(id, updateDealDto) {
-        return this.dealsService.update(+id, updateDealDto);
-    }
-    remove(id) {
-        return this.dealsService.remove(+id);
+        return this.dealsService.findOne(id);
     }
 };
 exports.DealsController = DealsController;
@@ -59,21 +52,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DealsController.prototype, "findOne", null);
-__decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_deal_dto_1.UpdateDealDto]),
-    __metadata("design:returntype", void 0)
-], DealsController.prototype, "update", null);
-__decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], DealsController.prototype, "remove", null);
 exports.DealsController = DealsController = __decorate([
     (0, common_1.Controller)('deals'),
     __metadata("design:paramtypes", [deals_service_1.DealsService])

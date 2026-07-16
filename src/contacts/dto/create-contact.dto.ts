@@ -1,18 +1,9 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import { ContactType } from '../schemas/contact.schema';
 
 export class CreateContactDto {
   @IsString()
-  firstName: string;
-
-  @IsString()
-  lastName: string;
-
-  @IsString()
-  email: string;
-
-  @IsString()
-  @IsOptional()
-  phone?: string;
+  name: string;
 
   @IsString()
   @IsOptional()
@@ -20,5 +11,32 @@ export class CreateContactDto {
 
   @IsString()
   @IsOptional()
-  accountId?: string;
+  company?: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
+  @IsEnum(ContactType)
+  @IsOptional()
+  type?: ContactType;
+
+  @IsString()
+  @IsOptional()
+  linkedin?: string;
+
+  @IsString()
+  @IsOptional()
+  location?: string;
+
+  @IsString()
+  @IsOptional()
+  bio?: string;
+
+  @IsString()
+  @IsOptional()
+  organizationId?: string;
 }

@@ -8,7 +8,7 @@ import { CreateContactDto } from './dto/create-contact.dto';
 export class ContactsService {
   constructor(@InjectModel(Contact.name) private contactModel: Model<ContactDocument>) {}
 
-  async create(createContactDto: CreateContactDto): Promise<Contact> {
+  async create(createContactDto: CreateContactDto): Promise<ContactDocument> {
     const createdContact = new this.contactModel(createContactDto);
     return createdContact.save();
   }

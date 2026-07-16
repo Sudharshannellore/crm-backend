@@ -13,30 +13,28 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DealsService = void 0;
+const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const deal_schema_1 = require("./schemas/deal.schema");
-const common_1 = require("@nestjs/common");
 let DealsService = class DealsService {
     dealModel;
     constructor(dealModel) {
         this.dealModel = dealModel;
     }
-    create(createDealDto) {
-        const created = new this.dealModel(createDealDto);
-        return created.save();
+    async create(createDealDto) {
+        const createdDeal = new this.dealModel(createDealDto);
+        return createdDeal.save();
     }
-    findAll() {
+    async findAll() {
         return this.dealModel.find().exec();
     }
-    findOne(id) {
-        return this.dealModel.findById(id).exec();
-    }
-    update(id, updateDealDto) {
-        return this.dealModel.findByIdAndUpdate(id, updateDealDto, { new: true }).exec();
-    }
-    remove(id) {
-        return this.dealModel.findByIdAndDelete(id).exec();
+    async findOne(id) {
+        const deal = await this.dealModel.findById(id).exec();
+        if (!deal) {
+            throw new common_1.NotFoundException(`${id} not found`);
+        }
+        return deal;
     }
 };
 exports.DealsService = DealsService;

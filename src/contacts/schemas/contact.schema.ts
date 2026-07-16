@@ -3,13 +3,24 @@ import { HydratedDocument } from 'mongoose';
 
 export type ContactDocument = HydratedDocument<Contact>;
 
+export enum ContactType {
+  CUSTOMER = 'customer',
+  PARTNER = 'partner',
+  VENDOR = 'vendor',
+  INFLUENCER = 'influencer',
+}
+
 @Schema({ timestamps: true })
 export class Contact {
   @Prop({ required: true })
-  firstName: string;
+  name: string;
 
-  @Prop({ required: true })
-  lastName: string;
+  // Job title / role.
+  @Prop()
+  title: string;
+
+  @Prop()
+  company: string;
 
   @Prop({ required: true })
   email: string;
@@ -17,11 +28,21 @@ export class Contact {
   @Prop()
   phone: string;
 
-  @Prop()
-  title: string;
+  @Prop({ type: String, enum: ContactType, default: ContactType.CUSTOMER })
+  type: ContactType;
 
   @Prop()
-  accountId: string;
+  linkedin: string;
+
+  @Prop()
+  location: string;
+
+  @Prop()
+  bio: string;
+
+  // Set automatically when the contact is created via lead conversion.
+  @Prop()
+  organizationId: string;
 }
 
 export const ContactSchema = SchemaFactory.createForClass(Contact);

@@ -12,12 +12,18 @@ const lead_schema_1 = require("./schemas/lead.schema");
 const common_1 = require("@nestjs/common");
 const leads_service_1 = require("./leads.service");
 const leads_controller_1 = require("./leads.controller");
+const organizations_module_1 = require("../organizations/organizations.module");
+const contacts_module_1 = require("../contacts/contacts.module");
 let LeadsModule = class LeadsModule {
 };
 exports.LeadsModule = LeadsModule;
 exports.LeadsModule = LeadsModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: lead_schema_1.Lead.name, schema: lead_schema_1.LeadSchema }])],
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: lead_schema_1.Lead.name, schema: lead_schema_1.LeadSchema }]),
+            organizations_module_1.OrganizationsModule,
+            contacts_module_1.ContactsModule,
+        ],
         controllers: [leads_controller_1.LeadsController],
         providers: [leads_service_1.LeadsService],
     })

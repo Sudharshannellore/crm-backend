@@ -13,30 +13,28 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactsService = void 0;
+const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const contact_schema_1 = require("./schemas/contact.schema");
-const common_1 = require("@nestjs/common");
 let ContactsService = class ContactsService {
     contactModel;
     constructor(contactModel) {
         this.contactModel = contactModel;
     }
-    create(createContactDto) {
-        const created = new this.contactModel(createContactDto);
-        return created.save();
+    async create(createContactDto) {
+        const createdContact = new this.contactModel(createContactDto);
+        return createdContact.save();
     }
-    findAll() {
+    async findAll() {
         return this.contactModel.find().exec();
     }
-    findOne(id) {
-        return this.contactModel.findById(id).exec();
-    }
-    update(id, updateContactDto) {
-        return this.contactModel.findByIdAndUpdate(id, updateContactDto, { new: true }).exec();
-    }
-    remove(id) {
-        return this.contactModel.findByIdAndDelete(id).exec();
+    async findOne(id) {
+        const contact = await this.contactModel.findById(id).exec();
+        if (!contact) {
+            throw new common_1.NotFoundException(`${id} not found`);
+        }
+        return contact;
     }
 };
 exports.ContactsService = ContactsService;
