@@ -1,4 +1,5 @@
-import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsDate, IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { Type } from 'class-transformer';
 import { CampaignStatus, CampaignType } from '../schemas/campaign.schema';
 
 export class CreateCampaignDto {
@@ -13,9 +14,13 @@ export class CreateCampaignDto {
   @IsOptional()
   status?: CampaignStatus;
 
+  @IsDate()
+  @Type(() => Date)
   @IsOptional()
   startDate?: Date;
 
+  @IsDate()
+  @Type(() => Date)
   @IsOptional()
   endDate?: Date;
 

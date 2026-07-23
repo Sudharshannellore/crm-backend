@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { MeetingsService } from './meetings.service';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
 import { UpdateMeetingDto } from './dto/update-meeting.dto';
+import { MeetingsQueryDto } from './dto/meetings-query.dto';
 
 @Controller('meetings')
 export class MeetingsController {
@@ -21,8 +23,8 @@ export class MeetingsController {
   }
 
   @Get()
-  findAll() {
-    return this.meetingsService.findAll();
+  findAll(@Query() query: MeetingsQueryDto) {
+    return this.meetingsService.findAll(query);
   }
 
   @Get(':id')

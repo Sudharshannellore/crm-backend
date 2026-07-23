@@ -1,4 +1,5 @@
 import {
+  IsDate,
   IsEnum,
   IsNumber,
   IsOptional,
@@ -6,6 +7,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { DealPriority, DealStage } from '../schemas/deal.schema';
 
 export class CreateDealDto {
@@ -20,6 +22,8 @@ export class CreateDealDto {
   @Min(0)
   value: number;
 
+  @IsDate()
+  @Type(() => Date)
   @IsOptional()
   closeDate?: Date;
 

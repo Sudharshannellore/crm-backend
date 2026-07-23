@@ -1,9 +1,11 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { QueryFilter, Model } from 'mongoose';
 import { Meeting } from './schemas/meeting.schema';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
 import { UpdateMeetingDto } from './dto/update-meeting.dto';
+import { MeetingsQueryDto } from './dto/meetings-query.dto';
+import { paginate } from '../common/utils/paginate';
 
 @Injectable()
 export class MeetingsService {
@@ -16,21 +18,37 @@ export class MeetingsService {
     return created.save();
   }
 
-  findAll() {
-    return this.meetingModel.find().exec();
+  findAll(query: MeetingsQueryDto) {
+    const filter: QueryFilter<Meeting> = {};
+    if (query.type !== undefined) {
+      filter.type = query.type;
+    }
+    return paginate(this.meetingModel, filter, query);
   }
 
-  findOne(id: string) {
-    return this.meetingModel.findById(id).exec();
+  async findOne(id: string) {
+    const meeting = await this.meetingModel.findById(id).exec();
+    if (!meeting) {
+      throw new NotFoundException(`Meeting ${id} not found`);
+    }
+    return meeting;
   }
 
-  update(id: string, updateMeetingDto: UpdateMeetingDto) {
-    return this.meetingModel
+  async update(id: string, updateMeetingDto: UpdateMeetingDto) {
+    const meeting = await this.meetingModel
       .findByIdAndUpdate(id, updateMeetingDto, { new: true })
       .exec();
+    if (!meeting) {
+      throw new NotFoundException(`Meeting ${id} not found`);
+    }
+    return meeting;
   }
 
-  remove(id: string) {
-    return this.meetingModel.findByIdAndDelete(id).exec();
+  async remove(id: string) {
+    const meeting = await this.meetingModel.findByIdAndDelete(id).exec();
+    if (!meeting) {
+      throw new NotFoundException(`Meeting ${id} not found`);
+    }
+    return meeting;
   }
 }

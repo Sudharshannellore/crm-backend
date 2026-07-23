@@ -5,14 +5,17 @@ import { LeadsService } from './leads.service';
 import { LeadsController } from './leads.controller';
 import { OrganizationsModule } from '../organizations/organizations.module';
 import { ContactsModule } from '../contacts/contacts.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Lead.name, schema: LeadSchema }]),
     OrganizationsModule,
     ContactsModule,
+    NotificationsModule,
   ],
   controllers: [LeadsController],
   providers: [LeadsService],
+  exports: [LeadsService],
 })
 export class LeadsModule {}

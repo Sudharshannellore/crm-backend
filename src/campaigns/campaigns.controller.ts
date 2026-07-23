@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CampaignsService } from './campaigns.service';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
+import { CampaignsQueryDto } from './dto/campaigns-query.dto';
 
 @Controller('campaigns')
 export class CampaignsController {
@@ -21,8 +23,8 @@ export class CampaignsController {
   }
 
   @Get()
-  findAll() {
-    return this.campaignsService.findAll();
+  findAll(@Query() query: CampaignsQueryDto) {
+    return this.campaignsService.findAll(query);
   }
 
   @Get(':id')
