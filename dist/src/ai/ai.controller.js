@@ -25,10 +25,10 @@ let AiController = class AiController {
         this.aiService = aiService;
     }
     getInsights(dto) {
-        return this.aiService.getInsights(dto.context);
+        return this.aiService.getInsights(dto.context, dto.pageContext);
     }
     async copilot(dto) {
-        return this.aiService.copilotChat(dto.message, dto.history);
+        return this.aiService.copilotChat(dto.message, dto.history, dto.pageContext);
     }
     generateEmail(dto) {
         return this.aiService.generateEmail(dto.prompt, dto.tone);

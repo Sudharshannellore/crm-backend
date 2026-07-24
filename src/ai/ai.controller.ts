@@ -11,12 +11,12 @@ export class AiController {
 
   @Post('insights')
   getInsights(@Body() dto: InsightsDto) {
-    return this.aiService.getInsights(dto.context);
+    return this.aiService.getInsights(dto.context, dto.pageContext);
   }
 
   @Post('copilot')
   async copilot(@Body() dto: CopilotDto) {
-    return this.aiService.copilotChat(dto.message, dto.history);
+    return this.aiService.copilotChat(dto.message, dto.history, dto.pageContext);
   }
 
   @Post('generate-email')

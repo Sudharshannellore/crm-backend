@@ -9,16 +9,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CopilotDto = exports.ChatMessageDto = void 0;
+exports.CopilotDto = exports.PageContextDto = exports.ChatMessageDto = void 0;
 const class_validator_1 = require("class-validator");
 class ChatMessageDto {
     role;
     content;
 }
 exports.ChatMessageDto = ChatMessageDto;
+class PageContextDto {
+    entityType;
+    entityId;
+    path;
+}
+exports.PageContextDto = PageContextDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], PageContextDto.prototype, "entityType", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], PageContextDto.prototype, "entityId", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], PageContextDto.prototype, "path", void 0);
 class CopilotDto {
     message;
     history;
+    pageContext;
 }
 exports.CopilotDto = CopilotDto;
 __decorate([
@@ -30,4 +52,9 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
 ], CopilotDto.prototype, "history", void 0);
+__decorate([
+    (0, class_validator_1.IsObject)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", PageContextDto)
+], CopilotDto.prototype, "pageContext", void 0);
 //# sourceMappingURL=copilot.dto.js.map

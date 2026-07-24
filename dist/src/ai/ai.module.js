@@ -10,11 +10,16 @@ exports.AiModule = void 0;
 const common_1 = require("@nestjs/common");
 const ai_controller_1 = require("./ai.controller");
 const ai_service_1 = require("./ai.service");
+const leads_module_1 = require("../leads/leads.module");
+const deals_module_1 = require("../deals/deals.module");
+const contacts_module_1 = require("../contacts/contacts.module");
+const tasks_module_1 = require("../tasks/tasks.module");
 let AiModule = class AiModule {
 };
 exports.AiModule = AiModule;
 exports.AiModule = AiModule = __decorate([
     (0, common_1.Module)({
+        imports: [leads_module_1.LeadsModule, deals_module_1.DealsModule, contacts_module_1.ContactsModule, tasks_module_1.TasksModule],
         controllers: [ai_controller_1.AiController],
         providers: [ai_service_1.AiService],
     })

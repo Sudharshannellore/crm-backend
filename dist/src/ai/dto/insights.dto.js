@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InsightsDto = void 0;
 const class_validator_1 = require("class-validator");
+const copilot_dto_1 = require("./copilot.dto");
 class InsightsDto {
     context;
+    pageContext;
 }
 exports.InsightsDto = InsightsDto;
 __decorate([
@@ -20,4 +22,9 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Object)
 ], InsightsDto.prototype, "context", void 0);
+__decorate([
+    (0, class_validator_1.IsObject)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", copilot_dto_1.PageContextDto)
+], InsightsDto.prototype, "pageContext", void 0);
 //# sourceMappingURL=insights.dto.js.map
